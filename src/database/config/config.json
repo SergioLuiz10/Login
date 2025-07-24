@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "admin",
+    "database": "curso_db",
+    "host": "postgres",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

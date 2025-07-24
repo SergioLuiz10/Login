@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-curso
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: curso_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - curso-network
+
+  backend:
+    build: .
+    container_name: node-backend
+    command: sh ./start.sh
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    networks:
+      - curso-network
+    environment:
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_DATABASE=curso_db
+      - DB_HOST=postgres
+      - DB_PORT=5432
+
+volumes:
+  postgres_data:
+
+networks:
+  curso-network:
+    driver: bridge
