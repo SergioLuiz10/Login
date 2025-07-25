@@ -1,14 +1,19 @@
 const { Admin } = require('../../../database/models');
 const AppError = require('../../../shared/errors/AppError');
 const bcrypt = require('bcryptjs');
-
+const ADMIN_NAO_ENCONTRADO = require('../../../shared/constants/ErroCodes').ADMIN_NAO_ENCONTRADO;
 class UpdateAdminService {
   async execute(id, { nome, email, senha, role }) {
     const admin = await Admin.findByPk(id);
 
     if (!admin) {
-      throw new AppError('Administrador não encontrado', 404);
-    }
+       throw new AppError(
+    ADMIN_NAO_ENCONTRADO.message,
+    ADMIN_NAO_ENCONTRADO.statusCode,
+    ADMIN_NAO_ENCONTRADO.details,
+     ADMIN_NAO_ENCONTRADO.code
+       )
+     }
 
     // Atualizações
     admin.nome = nome || admin.nome;

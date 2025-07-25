@@ -1,6 +1,6 @@
-const AppError = require('../../../shared/errors/AppErro');
+const AppError = require('../../../shared/errors/AppError');
 const {Admin} = require('../../../database/models');
-
+const ADMIN_LISTAGEM_FALHOU = require('../../../shared/constants/ErroCodes').ADMIN_LISTAGEM_FALHOU;
 
 class ListAdminService {
   async execute() {
@@ -10,7 +10,12 @@ class ListAdminService {
       });
       return admins;
     } catch (error) {
-      throw new AppError("Erro ao listar administradores", 500);
+     throw new AppError(
+    ADMIN_LISTAGEM_FALHOU.message,
+    ADMIN_LISTAGEM_FALHOU.statusCode,
+    ADMIN_LISTAGEM_FALHOU.details,
+     ADMIN_LISTAGEM_FALHOU.code
+       )
     }
   }
 }

@@ -1,15 +1,19 @@
 const bcrypt  = require('bcryptjs');
 const { Admin } = require('../../../database/models');
 const AppError = require('../../../shared/errors/AppError');
-
+const ADMIN_EMAIL_DUPLICADO = require('../../../shared/constants/ErroCodes').ADMIN_EMAIL_DUPLICADO;
 
 
     class CreateAdminService {
         async execute({ nome, email, senha, role }) {
             const adminExistente = await Admin.findOne({ where: { email } });
-            if (adminExistente) {       
-                throw new AppError('Email já cadastrado',409);
-       
+            if (adminExistente) {   
+                throw new AppError(     
+                 ADMIN_EMAIL_DUPLICADO.message,
+                 ADMIN_EMAIL_DUPLICADO.statusCode,
+                 ADMIN_EMAIL_DUPLICADO.details,
+                 ADMIN_EMAIL_DUPLICADO.code
+                )
             }
              const senhaCriptografada = await bcrypt.hash(senha, 8);
              
