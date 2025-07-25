@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UsuarioController = require('../modules/usuario/controllers/UsuarioController');
-const ensureAuthenticated = require('../shared/middlewares/ensureAuthenticated');
+const ensureAuthenticated = require('../shared/middlewares/ensureAuthenticated') ;
 
 
 router.post('/', UsuarioController.CreateUsuario);
